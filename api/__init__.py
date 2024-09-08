@@ -10,6 +10,7 @@ from flask_cors import CORS
 
 from config import Config
 from models.models import db, User
+from utils.util import Message
 
 app = Flask(__name__)
 
@@ -27,13 +28,13 @@ def add_data():
     name = request.form.get('name')
     email = request.form.get('email')
 
-    if not name or not email:
-        return jsonify({"error": "name and email are required!"}), 400
+    bool, message, code = Message.isExist(name, email)
+    if not bool:
+        return message, code
 
     try:
         new_user = User(name=name, email=email)
-        db.session.add(new_user)
-        db.session.commit()
+        new_user.save()
 
         return jsonify({"message": "Data added successfully!"}), 201
 

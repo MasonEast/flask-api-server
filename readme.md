@@ -71,3 +71,9 @@ gunicorn -w 4 app:app
 ```bash
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Ljf941118@localhost:3306/flask-db'
 ```
+
+通过SQLAlchemy创建db对象
+
+```python
+db = SQLAlchemy()
+```

@@ -5,6 +5,7 @@ load_dotenv()
 
 from api import app, db
 
+# falsk shell环境增加上下文
 @app.shell_context_processor
 def make_shell_context():
     return {
