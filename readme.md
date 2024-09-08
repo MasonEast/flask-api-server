@@ -50,3 +50,24 @@ flask run
 1. 首先安装 python-dotenv
 2. 在项目根目录创建 .env 文件
 3. 修改 run.py 文件以加载 .env 中的环境变量
+
+## 部署生产环境
+
+Flask 自带的服务器适合开发时使用，但不适合生产环境。你可以使用 WSGI 服务器（如 Gunicorn）来部署你的应用：
+
+```bash
+pip install gunicorn
+gunicorn -w 4 app:app
+```
+
+这行命令使用 4 个工作进程运行你的 Flask 应用。
+
+## 连接数据库
+
+安装SQLAlchemy和pymysql
+
+通过pymysql建立连接
+
+```bash
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Ljf941118@localhost:3306/flask-db'
+```
