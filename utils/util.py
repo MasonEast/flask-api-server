@@ -2,6 +2,7 @@ from flask import  jsonify
 
 class Message:
     def isExist(*Args):
+        print('-------')
         for arg in Args:
             if not arg:
                 return False, jsonify({"error": "name and email are required!"}), 400
