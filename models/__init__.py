@@ -8,7 +8,6 @@ api = Api(version='1.0', title='Sample API')
 
 from flask_restx import  Resource
 
-# from models.user import  item_model
 from flask import request
 
 item_model = api.model('Item', {
