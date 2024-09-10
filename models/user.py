@@ -1,9 +1,13 @@
-from flask_restx import Api, Resource, fields
 
-from models import api
+from . import db
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
 
-# 定义数据模型
-item_model = api.model('Item', {
-    'id': fields.Integer(readonly=True, description='The item unique identifier'),
-    'name': fields.String(required=True, description='The item name')
-})
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def rollback(self):
+        db.session.rollback()

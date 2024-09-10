@@ -1,31 +1,48 @@
-from flask_restx import  Resource
+from flask_restx import  Resource, fields
+from flask import jsonify, request
 
-from models.user import  item_model
-from models import api
-from flask import request
+# from routes import api
+from models import User
+from flask_restx import Api
 
-ns = api.namespace('items', description='Item operations')
+api = Api(version='1.0', title='Sample API')
 
-db = []
-@ns.route('/register')
+register_model = api.model('register_model', {
+   # 'id': fields.Integer(readonly=True, description='The item unique identifier'),
+    'name': fields.String(required=True, description='The item name'),
+    'email': fields.String(required=True, description='The item email'),
+})
+
+@api.route('/register')
 class Register(Resource):
 
-    @ns.expect(item_model, validate=True)
-
+    @api.expect(register_model, validate=True)
     def post(self):
-        '''Create a new item'''
-        new_item = {
-            'id': len(db) + 1,
-            'name': request.json['name']
-        }
-        db.append(new_item)
-        return new_item, 201
 
-# 将命名空间添加到API中
-api.add_namespace(ns)
+        try:
+            new_user = User(name=request.json['name'], email=request.json['email'])
 
+            new_user.save()
 
-@api.route('/hello')
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+            return {"success": True,
+                "msg": "The user was successfully registered"}, 200
+    
+        except Exception as err:
+            new_user.rollback()
+            return {"error": f"Error: {err}"}, 500
+
+#     bool, message, code = Message.isExist(name, email)
+#     if not bool:
+#         return message, code
+
+#     try:
+#         new_user = User(name=name, email=email)
+#         new_user.save()
+
+#         return jsonify({"message": "Data added successfully!"}), 201
+
+#     except Exception as err:
+#         db.session.rollback()
+#         return jsonify({"error": f"Error: {err}"}), 500
+    
+    
