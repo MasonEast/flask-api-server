@@ -1,7 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask import request
 
-from models import User
+from app.models import User
 
 user_ns = Namespace('user', description='Authentication related operations')
 
