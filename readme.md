@@ -77,3 +77,7 @@ SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Ljf941118@localhost:3306/flask-d
 ```python
 db = SQLAlchemy()
 ```
+
+## api设计
+
+用户
