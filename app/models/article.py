@@ -12,7 +12,6 @@ class Article(db.Model):
     text = db.Column(db.Text, nullable=False) # 内容
     tags = db.Column(db.String(255), nullable=False)
     create_time = db.Column(db.String(100), nullable=False)
-
     
     views = db.Column(db.Integer, nullable=False) # 浏览量
     likes = db.Column(db.Integer, nullable=False) # 点赞量
@@ -43,7 +42,7 @@ class Article(db.Model):
 
     @classmethod
     def get_by_id(cls, id):
-        return cls.query.get_or_404(id)
+        return cls.query.get_or_404(id, "not found")
 
     @classmethod
     def get_by_email(cls, email):
