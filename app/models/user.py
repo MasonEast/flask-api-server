@@ -30,6 +30,9 @@ class User(db.Model):
     def check_password(self, password):
         return HashBcrypt.check(password, self.password)
     
+    def check_status(self):
+        return self.status
+    
     def set_status(self, status):
         self.status = status
 
@@ -39,6 +42,7 @@ class User(db.Model):
         cls_dict['_id'] = self.user_id
         cls_dict['phone'] = self.phone
         cls_dict['email'] = self.email
+        cls_dict['nickname'] = self.nickname
 
         return cls_dict
 
@@ -53,3 +57,15 @@ class User(db.Model):
     @classmethod
     def get_by_phone(cls, phone):
         return cls.query.filter_by(phone=phone).first()
+
+class JWTTokenBlocklist(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    jwt_token = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Expired Token: {self.jwt_token}"
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()

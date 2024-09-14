@@ -6,14 +6,16 @@ from flask_restx import Namespace, Resource, fields
 from flask import request
 
 from app.models import Article
-from utils import HashBcrypt, Times, Valid, create_upload_dir
+from utils import Times
+from utils.decorator import token_required
+
 from config import Config
 
 article_ns = Namespace('article', description='文章')
 
 article_model = article_ns.model('article_model', {
     'title': fields.String(required=False, description='标题'),
-    'author': fields.String(required=True, description='作者'),
+    'author': fields.String(required=False, description='作者'),
     'text': fields.String(required=True, description='内容'),
     'tags': fields.String(required=True, description='标签'),
     'create_time': fields.String(required=False, description='创建时间'),
@@ -33,13 +35,14 @@ login_modal = article_ns.model('login_modal', {
 class Create(Resource):
 
     @article_ns.expect(article_model, validate=True)
-    def post(self):
-
+    @token_required
+    def post(self, current_user):
         try:
             data = request.json
 
             now = Times.now()
             data['create_time'] = now
+            data['author'] = self.toJSON()['nickname']
             data['views'] = 1
             data['likes'] = 0
             data['collects'] = 0
@@ -59,7 +62,6 @@ class Create(Resource):
 @article_ns.route('/<int:id>')
 @article_ns.param('id', 'The article identifier')
 class ArticleDetail(Resource):
-    # @article_ns.response(404, 'Article not found')
     @article_ns.marshal_with(article_model)
 
     def get(self, id):

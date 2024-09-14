@@ -4,6 +4,7 @@ from datetime import datetime
 import re
 import os
 
+
 class Valid():
     def valid_email(email):
         # 定义匹配邮箱格式的正则表达式
@@ -41,6 +42,7 @@ class Times():
         return datetime.utcnow()
 
 def create_upload_dir(directory):
+    
     if os.path.exists(directory): 
         return
     try:
@@ -48,3 +50,4 @@ def create_upload_dir(directory):
         print(f"Directory '{directory}' created successfully")
     except OSError as error:
         print(f"Error creating directory '{directory}': {error}")
+
