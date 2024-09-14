@@ -2,6 +2,7 @@ import bcrypt
 from datetime import datetime
 
 import re
+import os
 
 class Valid():
     def valid_email(email):
@@ -38,3 +39,12 @@ class Times():
     
     def nowUTC():
         return datetime.utcnow()
+
+def create_upload_dir(directory):
+    if os.path.exists(directory): 
+        return
+    try:
+        os.makedirs(directory, exist_ok=True)
+        print(f"Directory '{directory}' created successfully")
+    except OSError as error:
+        print(f"Error creating directory '{directory}': {error}")

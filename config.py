@@ -11,3 +11,6 @@ class Config:
 
     # token过期时间
     EXPIRE_MINUTES = 30
+
+    # 上传路径
+    UPLOAD_DIRECTORY = "./uploads"

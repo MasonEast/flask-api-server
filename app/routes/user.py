@@ -1,11 +1,12 @@
 import jwt
 from datetime import timedelta
+import os
 
 from flask_restx import Namespace, Resource, fields
 from flask import request
 
 from app.models import User
-from utils import HashBcrypt, Times, Valid
+from utils import HashBcrypt, Times, Valid, create_upload_dir
 from config import Config
 
 user_ns = Namespace('user', description='用户')
@@ -95,3 +96,20 @@ class Login(Resource):
         return {"success": True,
                 "token": token,
                 "user": user.toJSON()}, 200
+
+@user_ns.route('/upload')
+class FileUpload(Resource):
+    def post(self):
+        uploaded_file = request.files.get('file')
+
+        if uploaded_file:
+            file_name = uploaded_file.filename
+            path = f'{Config.UPLOAD_DIRECTORY}/avatar'
+            
+            create_upload_dir(path)
+
+            uploaded_file.save(os.path.join(path, file_name))
+            return {'message': f'File {file_name} uploaded successfully'}, 201
+        else:
+            return {'message': 'No file part'}, 400
+
