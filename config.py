@@ -8,3 +8,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Ljf941118@localhost:3306/flask-db'
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # token过期时间
+    EXPIRE_MINUTES = 120
+
+    # 上传路径
+    UPLOAD_DIRECTORY = "./uploads"
