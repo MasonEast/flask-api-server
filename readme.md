@@ -16,6 +16,9 @@ venv\Scripts\activate # windows
 
 ```bash
 pip freeze > requirements.txt
+
+# 使用淘宝镜像
+-i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
 一次性安装所有依赖
